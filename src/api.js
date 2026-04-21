@@ -6,13 +6,10 @@ export const getToken = async (studentId, password, set) => {
   try {
     const requestBody = {
       studentId,
-      password: password.toString(),
+      password: Number(password),
       set,
     };
-    console.log('Sending token request with:');
-    console.log('studentId:', studentId);
-    console.log('password:', password);
-    console.log('set:', set);
+    console.log('Sending token request with:', JSON.stringify(requestBody));
 
     const { data } = await axios.post(`${BASE_URL}/public/token`, requestBody);
 

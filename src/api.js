@@ -9,26 +9,28 @@ export const getToken = async (studentId, password, set) => {
       password: password.toString(),
       set,
     };
-    console.log('Sending token request with:', requestBody);
+    console.log('Sending token request with:');
+    console.log('studentId:', studentId);
+    console.log('password:', password);
+    console.log('set:', set);
 
     const { data } = await axios.post(`${BASE_URL}/public/token`, requestBody);
 
     console.log('Token response:', data);
     return data;
   } catch (error) {
-    console.error('Token request error:', {
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      message: error.message
-    });
+    console.error('Token request error - Status:', error.response?.status);
+    console.error('Token request error - Status Text:', error.response?.statusText);
+    console.error('Token request error - Data:', JSON.stringify(error.response?.data));
+    console.error('Token request error - Message:', error.message);
     throw error;
   }
 };
 
 export const getDataset = async (token, dataUrl) => {
   try {
-    console.log('Getting dataset:', { token, dataUrl });
+    console.log('Getting dataset with token:', token);
+    console.log('dataUrl:', dataUrl);
 
     const { data } = await axios.get(`${BASE_URL}${dataUrl}`, {
       headers: {
@@ -49,3 +51,4 @@ export const fetchActivities = async () => {
   const activities = await getDataset(token, "/activities");
   return activities;
 };
+

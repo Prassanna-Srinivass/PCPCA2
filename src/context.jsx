@@ -1,5 +1,5 @@
-import { createContext, useReducer, useCallback, useEffect } from 'react';
-import { fetchActivities } from './api';
+import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
+import { getToken, getDataset } from './api';
 
 export const ActivityContext = createContext();
 
@@ -54,14 +54,23 @@ export const activityReducer = (state, action) => {
 export const ActivityProvider = ({ children }) => {
   const [state, dispatch] = useReducer(activityReducer, initialState);
 
+  // Fetch activities from server
   useEffect(() => {
     const loadActivities = async () => {
       try {
-        const data = await fetchActivities();
+        // Step 1: Get Token
+        const tokenRes = await getToken("E0323047", "405506", "B");
+        console.log('Token response:', tokenRes);
+
+        // Step 2: Fetch dataset
+        const activities = await getDataset(tokenRes.token, tokenRes.dataUrl);
+        console.log('Activities data:', activities);
+
         // Handle both array and object responses
-        const activitiesArray = Array.isArray(data) ? data : data.activities || [];
+        const activitiesArray = Array.isArray(activities) ? activities : activities.activities || [];
         dispatch({ type: 'SET_ACTIVITIES', payload: activitiesArray });
       } catch (err) {
+        console.error('Error fetching activities:', err.message);
         dispatch({ type: 'SET_ERROR', payload: err.message });
       }
     };
@@ -142,3 +151,5 @@ export const ActivityProvider = ({ children }) => {
     </ActivityContext.Provider>
   );
 };
+
+export const useActivity = () => useContext(ActivityContext);

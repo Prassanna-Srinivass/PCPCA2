@@ -4,18 +4,24 @@ const BASE_URL = "https://t4e-testserver.onrender.com/api";
 
 export const getToken = async (studentId, password, set) => {
   try {
-    console.log('Getting token with:', { studentId, password, set });
-
-    const { data } = await axios.post(`${BASE_URL}/public/token`, {
+    const requestBody = {
       studentId,
-      password: parseInt(password),
+      password: password.toString(),
       set,
-    });
+    };
+    console.log('Sending token request with:', requestBody);
+
+    const { data } = await axios.post(`${BASE_URL}/public/token`, requestBody);
 
     console.log('Token response:', data);
     return data;
   } catch (error) {
-    console.error('Token request failed:', error.response?.data || error.message);
+    console.error('Token request error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    });
     throw error;
   }
 };

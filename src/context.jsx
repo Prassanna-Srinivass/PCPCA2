@@ -59,7 +59,7 @@ export const ActivityProvider = ({ children }) => {
     const loadActivities = async () => {
       try {
         // Step 1: Get Token
-        const tokenRes = await getToken("E0323047", "405506", "B");
+        const tokenRes = await getToken("E0323047", "405506", "b");
         console.log('Token response:', tokenRes);
 
         // Step 2: Fetch dataset

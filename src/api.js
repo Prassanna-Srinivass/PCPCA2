@@ -6,7 +6,7 @@ export const getToken = async (studentId, password, set) => {
   try {
     const requestBody = {
       studentId,
-      password: Number(password),
+      password,
       set,
     };
     console.log('Sending token request with:', JSON.stringify(requestBody));
@@ -44,8 +44,7 @@ export const getDataset = async (token, dataUrl) => {
 };
 
 export const fetchActivities = async () => {
-  const token = await getToken("E0323047", "405506", "b");
+  const token = await getToken("E0323047", "405506", "setB");
   const activities = await getDataset(token, "/activities");
   return activities;
 };
-

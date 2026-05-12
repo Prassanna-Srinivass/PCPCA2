@@ -44,7 +44,7 @@ export const getDataset = async (token, dataUrl) => {
 };
 
 export const fetchActivities = async () => {
-  const token = await getToken("E0323047", "405506", "b");
+  const token = await getToken("E0323047", "405506", "setB");
   const activities = await getDataset(token, "/activities");
   return activities;
 };
